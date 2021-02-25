@@ -20,6 +20,19 @@ export default class Table extends Component {
     let sortedUsers = this.state.users;
     if (this.state.sortedField !== null) {
       sortedUsers.sort((usr1, usr2) => {
+        if (this.state.sortedField === "age") {
+          if (
+            usr1.dob[this.state.sortedField] < usr2.dob[this.state.sortedField]
+          ) {
+            return -1;
+          }
+          if (
+            usr1.dob[this.state.sortedField] > usr2.dob[this.state.sortedField]
+          ) {
+            return 1;
+          }
+          return 0;
+        }
         if (
           this.state.sortedField === "first" ||
           this.state.sortedField === "last"
@@ -52,12 +65,6 @@ export default class Table extends Component {
       <table className="table">
         <thead>
           <tr>
-            <th
-              scope="col"
-              onClick={() => this.setState({ sortedField: "id" })}
-            >
-              ID
-            </th>
             <th
               scope="col"
               onClick={() => this.setState({ sortedField: "first" })}
@@ -93,8 +100,7 @@ export default class Table extends Component {
         <tbody>
           {this.state.users.map((data) => (
             <TableRow
-              id={counter++}
-              key={counter}
+              key={counter++}
               firstName={data.name.first}
               lastName={data.name.last}
               email={data.email}
